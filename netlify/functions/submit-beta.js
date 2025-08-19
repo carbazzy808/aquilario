@@ -19,12 +19,13 @@ exports.handler = async (event) => {
     const ip = event.headers['x-forwarded-for'] || '';
     const ua = event.headers['user-agent'] || '';
 
-    const { error } = await supabase
-      .from('beta_signups')
-      .upsert(
-        { email, platform, goal, source: 'aquilario', ip, user_agent: ua },
-        { onConflict: 'email' }
-      );
+   const { error } = await supabase
+  .from('beta_signups')
+  .upsert(
+    { email, platform, goal, source: 'aquilario', ip, user_agent: ua },
+    { onConflict: 'email_ci' }   // <- changed
+  );
+
 
     if (error) throw error;
 
