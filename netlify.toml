@@ -9,3 +9,8 @@
 # Optional: pretty URLs
 [build]
   publish = "."
+
+[[redirects]]
+  from = "/linkconvert"
+  to = "/linkconvertbeta/"
+  status = 301
