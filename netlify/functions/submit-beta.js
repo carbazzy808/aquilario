@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+const { createClient } = require('@supabase/supabase-js');
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -11,10 +11,9 @@ export const handler = async (event) => {
       return { statusCode: 400, body: 'Valid email required' };
     }
 
-    // Read from env vars (set in Netlify UI)
     const supabase = createClient(
       process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE // keep secret; NEVER commit to git
+      process.env.SUPABASE_SERVICE_ROLE
     );
 
     const ip = event.headers['x-forwarded-for'] || '';
@@ -28,9 +27,14 @@ export const handler = async (event) => {
       );
 
     if (error) throw error;
+
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (e) {
-    return { statusCode: 500, body: 'Server error' };
+    // surface the error in logs & response to speed up debugging
+    console.error(e);
+    return { statusCode: 500, body: 'Server error: ' + (e.message || 'unknown') };
   }
 };
+
+
 
