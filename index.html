@@ -53,6 +53,29 @@
     footer{background:#0f1320;color:#cbd5e1;}
     footer a{color:#cbd5e1;text-decoration:none;border-bottom:1px solid rgba(203,213,225,.3);}
     footer a:hover{border-bottom-color:#fff;}
+
+    .product-card.featured{
+  border:2px solid var(--bs-primary);
+  box-shadow:0 10px 30px rgba(13,110,253,.15);
+  background:linear-gradient(180deg,#fff,#f8fbff);
+}
+.ribbon{
+  position:absolute; top:12px; right:-8px;
+  background:#0d6efd; color:#fff; font-weight:600; font-size:.75rem;
+  padding:.25rem .5rem; border-radius:.25rem;
+  box-shadow:0 4px 12px rgba(13,110,253,.35);
+}
+.badge-new{ font-size:.75rem; color:#0d6efd; display:inline-flex; align-items:center; }
+.badge-new .dot{
+  width:8px; height:8px; border-radius:50%; background:#0d6efd; display:inline-block; margin-right:6px;
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(13,110,253,.5) }
+  70%{ box-shadow:0 0 0 10px rgba(13,110,253,0) }
+  100%{ box-shadow:0 0 0 0 rgba(13,110,253,0) }
+}
+
   </style>
 </head>
 <body>
@@ -70,7 +93,7 @@
       <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto align-items-lg-center">
           <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-          <li class="nav-item"><a class="https://buildmywayout.substack.com/" href="#playbook">Playbook</a></li>
+          <li class="nav-item"><a class="nav-link" href="#playbook">Playbook</a></li>
           <li class="nav-item"><a class="nav-link" href="#subscribe">Subscribe</a></li>
           <li class="nav-item ms-lg-3">
             <a class="btn btn-gold btn-sm" href="#contact">Contact</a>
@@ -117,20 +140,24 @@
       <span class="text-muted small">“Aquilario” is the umbrella — each tool is focused and practical.</span>
     </div>
 
-    <div class="row g-4">
-      <!-- LinkConvert -->
-      <div class="col-12 col-sm-6 col-lg-3">
-        <a href="https://aquilario.com/linkconvertbeta" class="text-decoration-none">
-          <div class="product-card p-4 h-100">
-            <div class="d-flex align-items-center mb-2">
-              <i class="bi bi-magic fs-4 me-2 text-primary" aria-hidden="true"></i>
-              <strong>LinkConvert</strong>
-            </div>
-            <p class="mb-3">Clarity & conversions for your link-in-bio and landing pages.</p>
-            <span class="badge-soon">Join the Beta!</span>
-          </div>
-        </a>
+    <div class="row g-4"></div>
+ <!-- LinkConvert (featured) -->
+    <div class="col-12 col-sm-6 col-lg-3">
+  <a href="/linkconvertbeta" class="text-decoration-none">
+    <div class="product-card p-4 h-100 featured position-relative">
+      <span class="ribbon">Beta</span>
+      <div class="d-flex align-items-center mb-2">
+        <i class="bi bi-magic fs-4 me-2 text-primary" aria-hidden="true"></i>
+        <strong>LinkConvert</strong>
+        <span class="ms-2 badge-new"><span class="dot"></span> New</span>
       </div>
+      <p class="mb-3">Clarity & conversions for your link-in-bio and landing pages.</p>
+      <button class="btn btn-primary btn-sm">Join the Beta</button>
+      <div class="text-muted small mt-2">First 100 get Lifetime Pro for $9.</div>
+    </div>
+  </a>
+</div>
+
 
       <!-- SocialCred -->
       <div class="col-12 col-sm-6 col-lg-3">
