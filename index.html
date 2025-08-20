@@ -321,7 +321,6 @@ a.text-decoration-none.d-block.h-100 .product-card{
     const ok  = document.getElementById('subscribe-ok');
     const err = document.getElementById('subscribe-err');
 
-    // Helper: encode FormData as x-www-form-urlencoded
     function encodeFormData(fd) {
       const params = new URLSearchParams();
       for (const [k, v] of fd.entries()) params.append(k, v);
@@ -329,18 +328,14 @@ a.text-decoration-none.d-block.h-100 .product-card{
     }
 
     form.addEventListener('submit', async (e) => {
-      // If JS fails, browser will POST to action="/thanks.html" normally
+      // allow no-JS fallback if something breaks
       e.preventDefault();
 
       const fd = new FormData(form);
-      // Netlify requires the "form-name" field to be present in the POST body for AJAX
-      if (!fd.get('form-name')) fd.set('form-name', form.getAttribute('name'));
-
-      // Post to the form action (fallback to current path)
-      const postUrl = form.getAttribute('action') || window.location.pathname;
+      if (!fd.get('form-name')) fd.set('form-name', form.getAttribute('name') || 'subscribe');
 
       try {
-        const res = await fetch(postUrl, {
+        const res = await fetch('/', {      // <-- POST to root for Netlify Forms
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: encodeFormData(fd)
@@ -353,15 +348,14 @@ a.text-decoration-none.d-block.h-100 .product-card{
         } else {
           throw new Error('Bad response: ' + res.status);
         }
-      } catch (e) {
+      } catch (e2) {
         ok && ok.classList.add('d-none');
         err && err.classList.remove('d-none');
-        console.error('Subscribe error:', e);
+        console.error('Subscribe error:', e2);
       }
     });
   })();
 </script>
-
 
 
   <!-- Contact -->
