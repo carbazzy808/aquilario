@@ -289,33 +289,24 @@ a.text-decoration-none.d-block.h-100 .product-card{
           <h6 class="text-uppercase text-muted mb-3">Subscribe</h6>
 
           <!-- Netlify Forms -->
-          <form
-            id="subscribe-form"
-            name="subscribe"
-            method="POST"
-            action="/thanks.html"               <!-- fallback redirect -->
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-          >
-            <input type="hidden" name="form-name" value="subscribe" />
-            <p class="d-none">
-              <label>Don’t fill this out: <input name="bot-field" /></label>
-            </p>
+          <form id="subscribe-form" name="subscribe" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="subscribe" />
+  <p class="d-none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
-            <div class="row g-2">
-              <div class="col-sm">
-                <input required type="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" />
-              </div>
-              <div class="col-sm-auto d-grid">
-                <button class="btn btn-gold btn-lg" type="submit">Join the list</button>
-              </div>
-            </div>
+  <div class="row g-2">
+    <div class="col-sm">
+      <input required type="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" />
+    </div>
+    <div class="col-sm-auto d-grid">
+      <button class="btn btn-gold btn-lg" type="submit">Join the list</button>
+    </div>
+  </div>
 
-            <!-- inline success / error -->
-            <p id="subscribe-ok" class="small text-success mt-2 mb-0 d-none">✅ Thanks! You’re on the list.</p>
-            <p id="subscribe-err" class="small text-danger mt-2 mb-0 d-none">⚠️ Something went wrong. Please try again.</p>
-            <p class="small text-muted mt-2 mb-0">By subscribing you agree to our occasional emails. Unsubscribe anytime.</p>
-          </form>
+  <p id="subscribe-ok" class="small text-success mt-2 mb-0 d-none">✅ Thanks! You’re on the list.</p>
+  <p id="subscribe-err" class="small text-danger mt-2 mb-0 d-none">⚠️ Something went wrong. Please try again.</p>
+  <p class="small text-muted mt-2 mb-0">By subscribing you agree to our occasional emails. Unsubscribe anytime.</p>
+</form>
+
         </div>
       </div>
     </div>
