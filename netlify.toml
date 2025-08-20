@@ -39,3 +39,10 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+    [[headers]]
+  for = "/*"
+  [headers.values]
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+
+
