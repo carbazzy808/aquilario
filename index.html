@@ -54,42 +54,87 @@
     footer a{color:#cbd5e1;text-decoration:none;border-bottom:1px solid rgba(203,213,225,.3);}
     footer a:hover{border-bottom-color:#fff;}
 
-    .product-card.featured {
-  border: 2px solid var(--bs-primary);
-  box-shadow: 0 10px 30px rgba(13,110,253,.15);
-  background: linear-gradient(180deg,#fff,#f8fbff);
+ /* ===== Products section (polished) ===== */
+
+/* Grid helper (use with: .row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 align-items-stretch) */
+#products .row > .col,
+#products .row > [class*="col-"] {
+  display: flex;                /* let columns stretch equally */
 }
 
-/* make every card the same height and keep button/labels anchored nicely */
-.product-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* Base card */
+.product-card{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;  /* keep footer bits aligned */
+  height:100%;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 8px 28px rgba(0,0,0,.06);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  border:1px solid rgba(28,31,42,.06);
 }
 
-.product-card p { margin-bottom: 1rem; }
-
+/* Content rhythm */
+.product-card .d-flex{ min-height:2rem; } /* icon + title row */
+.product-card p{ margin-bottom:1rem; }
 .product-card .btn,
 .product-card .badge-soon,
-.product-card .text-muted.small {
-  margin-top: auto;
+.product-card .text-muted.small{ margin-top:auto; }
+
+/* Hover / focus */
+.product-card:hover,
+.product-card:focus-within{
+  transform:translateY(-2px);
+  box-shadow:0 14px 34px rgba(0,0,0,.10);
+  border-color:rgba(13,110,253,.25);
 }
 
+/* Featured (LinkConvert) */
+.product-card.featured{
+  border:2px solid var(--bs-primary);
+  box-shadow:0 10px 30px rgba(13,110,253,.15);
+  background:linear-gradient(180deg,#fff,#f8fbff);
+}
+
+/* “Beta” ribbon */
 .ribbon{
   position:absolute; top:12px; right:-8px;
   background:#0d6efd; color:#fff; font-weight:600; font-size:.75rem;
   padding:.25rem .5rem; border-radius:.25rem;
   box-shadow:0 4px 12px rgba(13,110,253,.35);
 }
+
+/* “New” pill next to title */
 .badge-new{ font-size:.75rem; color:#0d6efd; display:inline-flex; align-items:center; }
 .badge-new .dot{
   width:8px; height:8px; border-radius:50%; background:#0d6efd; display:inline-block; margin-right:6px;
   animation:pulse 1.6s infinite;
 }
 @keyframes pulse{
-  0%{ box-shadow:0 0 0 0 rgba(13,110,253,.5) }
+  0%{ box-shadow:0 0 0 0 rgba(13,110,253,.45) }
   70%{ box-shadow:0 0 0 10px rgba(13,110,253,0) }
   100%{ box-shadow:0 0 0 0 rgba(13,110,253,0) }
+}
+
+/* “Coming soon” pill */
+.badge-soon{
+  background:rgba(0,0,0,.06);
+  color:#374151;
+  border-radius:999px;
+  padding:.25rem .6rem;
+  font-size:.8rem;
+}
+
+/* Make whole tile clickable when wrapped in an <a> */
+a.text-decoration-none.d-block.h-100 .product-card{
+  cursor:pointer;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce){
+  .product-card{ transition:none }
+  .badge-new .dot{ animation:none }
 }
 
   </style>
