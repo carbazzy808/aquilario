@@ -16,26 +16,29 @@ exports.handler = async (event) => {
       process.env.SUPABASE_SERVICE_ROLE
     );
 
-    const ip = event.headers['x-forwarded-for'] || '';
-    const ua = event.headers['user-agent'] || '';
+    // Normalize inputs
+    const platformValue =
+      typeof platform === 'string' && platform.trim()
+        ? [platform.trim()]      // 👈 wrap as array for text[]
+        : null;
 
-   const { error } = await supabase
-  .from('beta_signups')
-  .upsert(
-    { email, platform, goal, source: 'aquilario', ip, user_agent: ua },
-    { onConflict: 'email_ci' }   // <- changed
-  );
+    const goalValue = (goal || '').toString().trim() || null;
 
+    const { error } = await supabase
+      .from('beta_signups')
+      .upsert(
+        { email, platform: platformValue, goal: goalValue, source: 'aquilario' },
+        { onConflict: 'email_ci' }   // use 'email' if you set a unique on email; 'email_ci' if you added the case-insensitive index
+      );
 
     if (error) throw error;
-
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   } catch (e) {
-    // surface the error in logs & response to speed up debugging
     console.error(e);
     return { statusCode: 500, body: 'Server error: ' + (e.message || 'unknown') };
   }
 };
+
 
 
 
