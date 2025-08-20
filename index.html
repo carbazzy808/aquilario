@@ -314,44 +314,54 @@ a.text-decoration-none.d-block.h-100 .product-card{
 </section>
 
 <script>
-  // Progressive enhancement: Ajax the Netlify form for an inline success state.
   (function () {
     const form = document.getElementById('subscribe-form');
     if (!form) return;
 
-    const ok = document.getElementById('subscribe-ok');
+    const ok  = document.getElementById('subscribe-ok');
     const err = document.getElementById('subscribe-err');
 
+    // Helper: encode FormData as x-www-form-urlencoded
+    function encodeFormData(fd) {
+      const params = new URLSearchParams();
+      for (const [k, v] of fd.entries()) params.append(k, v);
+      return params.toString();
+    }
+
     form.addEventListener('submit', async (e) => {
-      // If JS fails, Netlify handles the normal POST + thanks redirect
+      // If JS fails, browser will POST to action="/thanks.html" normally
       e.preventDefault();
 
-      // Build Netlify-compatible payload
-      const data = new FormData(form);
-      // Netlify requires the form-name field in body for AJAX posts too
-      if (!data.get('form-name')) data.set('form-name', form.getAttribute('name'));
+      const fd = new FormData(form);
+      // Netlify requires the "form-name" field to be present in the POST body for AJAX
+      if (!fd.get('form-name')) fd.set('form-name', form.getAttribute('name'));
+
+      // Post to the form action (fallback to current path)
+      const postUrl = form.getAttribute('action') || window.location.pathname;
 
       try {
-        const res = await fetch('/', {  // Netlify parses static site form posts at the site root
+        const res = await fetch(postUrl, {
           method: 'POST',
-          headers: { 'Accept': 'application/x-www-form-urlencoded;charset=UTF-8' },
-          body: new URLSearchParams([...data]).toString()
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encodeFormData(fd)
         });
 
         if (res.ok) {
-          ok.classList.remove('d-none');
-          err.classList.add('d-none');
+          ok && ok.classList.remove('d-none');
+          err && err.classList.add('d-none');
           form.reset();
         } else {
-          throw new Error('Bad response');
+          throw new Error('Bad response: ' + res.status);
         }
-      } catch {
-        ok.classList.add('d-none');
-        err.classList.remove('d-none');
+      } catch (e) {
+        ok && ok.classList.add('d-none');
+        err && err.classList.remove('d-none');
+        console.error('Subscribe error:', e);
       }
     });
   })();
 </script>
+
 
 
   <!-- Contact -->
