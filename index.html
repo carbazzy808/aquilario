@@ -217,8 +217,9 @@ a.text-decoration-none.d-block.h-100 .product-card{
             </div>
             <p class="mb-3">Clarity &amp; conversions for your link-in-bio and landing pages.</p>
             <button class="btn btn-primary btn-sm">Join the Beta</button>
-            <div class="text-muted small mt-2">First 100 get Lifetime Pro for $9.</div>
-          </div>
+            <div class="text-muted small mt-2">
+                First 100 get Lifetime Pro for $9. <span id="beta-spots">Loading…</span>
+            </div>
         </a>
       </div>
 
@@ -402,5 +403,26 @@ a.text-decoration-none.d-block.h-100 .product-card{
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  (async () => {
+    try {
+      const r = await fetch('/.netlify/functions/spots-left', { cache: 'no-store' });
+      const d = await r.json();
+      const el = document.getElementById('beta-spots');
+      if (!el) return;
+      if (Number.isFinite(d.spotsLeft)) {
+        el.textContent = d.spotsLeft > 0
+          ? `${d.spotsLeft} spots left`
+          : `Beta full — join the waitlist`;
+      }
+      // (optional) tweak button copy when nearly full
+      const btn = document.querySelector('.product-card .btn.btn-primary');
+      if (btn && d.spotsLeft <= 10 && d.spotsLeft > 0) {
+        btn.textContent = `Join the Beta — ${d.spotsLeft} left`;
+      }
+    } catch(_) {}
+  })();
+</script>
+
 </body>
 </html>
