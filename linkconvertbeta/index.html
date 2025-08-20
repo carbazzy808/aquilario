@@ -123,8 +123,15 @@ document.getElementById('betaForm').addEventListener('submit', async (e) => {
   });
 
   const msg = document.getElementById('betaMsg');
-  if (res.ok) { msg.textContent = "✅ Thanks! You’re on the list."; f.reset(); }
-  else { msg.textContent = "⚠️ Something went wrong. Please try again."; }
+  if (res.ok) { 
+  msg.textContent = "✅ Thanks! You’re on the list."; 
+  f.reset();
+  try { plausible('beta_submit'); } catch(e){}   // <-- add this
+}
+else { 
+  msg.textContent = "⚠️ Something went wrong. Please try again."; 
+}
+
 });
 </script>
 

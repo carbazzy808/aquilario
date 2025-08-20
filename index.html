@@ -311,6 +311,7 @@ a.text-decoration-none.d-block.h-100 .product-card{
   </div>
 
   <p id="subscribe-ok" class="small text-success mt-2 mb-0 d-none">✅ Thanks! You’re on the list.</p>
+  try { plausible('subscribe_submit'); } catch(e){}
   <p id="subscribe-err" class="small text-danger mt-2 mb-0 d-none">⚠️ Something went wrong. Please try again.</p>
   <p class="small text-muted mt-2 mb-0">By subscribing you agree to our occasional emails. Unsubscribe anytime.</p>
 </form>
@@ -328,6 +329,7 @@ a.text-decoration-none.d-block.h-100 .product-card{
 
     const ok  = document.getElementById('subscribe-ok');
     const err = document.getElementById('subscribe-err');
+    const submitBtn = form.querySelector('[type="submit"]');
 
     function encodeFormData(fd) {
       const params = new URLSearchParams();
@@ -336,34 +338,47 @@ a.text-decoration-none.d-block.h-100 .product-card{
     }
 
     form.addEventListener('submit', async (e) => {
-      // allow no-JS fallback if something breaks
-      e.preventDefault();
+      e.preventDefault(); // keep inline success UX
+
+      // (nice UX) disable button while submitting
+      if (submitBtn) { submitBtn.disabled = true; }
 
       const fd = new FormData(form);
-      if (!fd.get('form-name')) fd.set('form-name', form.getAttribute('name') || 'subscribe');
+      if (!fd.get('form-name')) {
+        fd.set('form-name', form.getAttribute('name') || 'subscribe');
+      }
 
       try {
-        const res = await fetch('/', {      // <-- POST to root for Netlify Forms
+        const res = await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: encodeFormData(fd)
         });
 
-        if (res.ok) {
-          ok && ok.classList.remove('d-none');
-          err && err.classList.add('d-none');
-          form.reset();
-        } else {
-          throw new Error('Bad response: ' + res.status);
-        }
+        if (!res.ok) throw new Error('Bad response: ' + res.status);
+
+        // success
+        ok && ok.classList.remove('d-none');
+        err && err.classList.add('d-none');
+        form.reset();
+
+        // 🔔 analytics event
+        try { plausible('subscribe_submit'); } catch (_) {}
       } catch (e2) {
+        // error
         ok && ok.classList.add('d-none');
         err && err.classList.remove('d-none');
         console.error('Subscribe error:', e2);
+
+        // (optional) error event
+        // try { plausible('subscribe_error'); } catch (_) {}
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; }
       }
     });
   })();
 </script>
+
 
 
   <!-- Contact -->
