@@ -266,42 +266,102 @@ a.text-decoration-none.d-block.h-100 .product-card{
 
 
 
-  <!-- Playbook -->
-  <section id="playbook" class="section">
-    <div class="container">
-      <div class="row g-4 align-items-center">
-        <div class="col-lg-6">
-          <h2 class="fw-bold">The Aquilario Playbook</h2>
-          <p class="lead">Weekly field notes on clarity, systems, momentum, and proof — for creators and operators who build.</p>
-          <ul>
-            <li>Quick wins that reduce friction.</li>
-            <li>Operator-grade frameworks that scale.</li>
-            <li>Build-in-public updates and teardown invites.</li>
-          </ul>
-          <a class="link-underline" href="https://buildmywayout.substack.com/" target="_blank" rel="noopener">Read recent posts</a>
-        </div>
-        <div class="col-lg-6">
-          <div class="product-card p-4">
-            <h6 class="text-uppercase text-muted mb-3">Subscribe</h6>
-            <!-- Netlify Forms -->
-            <form id="subscribe-form" name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-              <input type="hidden" name="form-name" value="subscribe" />
-              <p class="d-none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
-              <div class="row g-2">
-                <div class="col-sm">
-                  <input required type="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" />
-                </div>
-                <div class="col-sm-auto d-grid">
-                  <button class="btn btn-gold btn-lg" type="submit">Join the list</button>
-                </div>
+<!-- Playbook -->
+<section id="playbook" class="section">
+  <div class="container">
+    <!-- add a named anchor so #subscribe links work -->
+    <div id="subscribe"></div>
+
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <h2 class="fw-bold">The Aquilario Playbook</h2>
+        <p class="lead">Weekly field notes on clarity, systems, momentum, and proof — for creators and operators who build.</p>
+        <ul>
+          <li>Quick wins that reduce friction.</li>
+          <li>Operator-grade frameworks that scale.</li>
+          <li>Build-in-public updates and teardown invites.</li>
+        </ul>
+        <a class="link-underline" href="https://buildmywayout.substack.com/" target="_blank" rel="noopener">Read recent posts</a>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="product-card p-4">
+          <h6 class="text-uppercase text-muted mb-3">Subscribe</h6>
+
+          <!-- Netlify Forms -->
+          <form
+            id="subscribe-form"
+            name="subscribe"
+            method="POST"
+            action="/thanks.html"               <!-- fallback redirect -->
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="subscribe" />
+            <p class="d-none">
+              <label>Don’t fill this out: <input name="bot-field" /></label>
+            </p>
+
+            <div class="row g-2">
+              <div class="col-sm">
+                <input required type="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" />
               </div>
-              <p class="small text-muted mt-2 mb-0">By subscribing you agree to our occasional emails. Unsubscribe anytime.</p>
-            </form>
-          </div>
+              <div class="col-sm-auto d-grid">
+                <button class="btn btn-gold btn-lg" type="submit">Join the list</button>
+              </div>
+            </div>
+
+            <!-- inline success / error -->
+            <p id="subscribe-ok" class="small text-success mt-2 mb-0 d-none">✅ Thanks! You’re on the list.</p>
+            <p id="subscribe-err" class="small text-danger mt-2 mb-0 d-none">⚠️ Something went wrong. Please try again.</p>
+            <p class="small text-muted mt-2 mb-0">By subscribing you agree to our occasional emails. Unsubscribe anytime.</p>
+          </form>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<script>
+  // Progressive enhancement: Ajax the Netlify form for an inline success state.
+  (function () {
+    const form = document.getElementById('subscribe-form');
+    if (!form) return;
+
+    const ok = document.getElementById('subscribe-ok');
+    const err = document.getElementById('subscribe-err');
+
+    form.addEventListener('submit', async (e) => {
+      // If JS fails, Netlify handles the normal POST + thanks redirect
+      e.preventDefault();
+
+      // Build Netlify-compatible payload
+      const data = new FormData(form);
+      // Netlify requires the form-name field in body for AJAX posts too
+      if (!data.get('form-name')) data.set('form-name', form.getAttribute('name'));
+
+      try {
+        const res = await fetch('/', {  // Netlify parses static site form posts at the site root
+          method: 'POST',
+          headers: { 'Accept': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: new URLSearchParams([...data]).toString()
+        });
+
+        if (res.ok) {
+          ok.classList.remove('d-none');
+          err.classList.add('d-none');
+          form.reset();
+        } else {
+          throw new Error('Bad response');
+        }
+      } catch {
+        ok.classList.add('d-none');
+        err.classList.remove('d-none');
+      }
+    });
+  })();
+</script>
+
 
   <!-- Contact -->
   <section id="contact" class="section">
