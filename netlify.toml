@@ -45,4 +45,17 @@
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Embedder-Policy = "require-corp"
 
+# netlify.toml  (Aquilario marketing site)
+[[redirects]]
+  from = "/linkconvert"
+  to = "https://linkconvert.aquilario.com"
+  status = 308
+  force = true
+
+[[redirects]]
+  from = "/linkconvert/*"
+  to = "https://linkconvert.aquilario.com/:splat"
+  status = 308
+  force = true
+
 
