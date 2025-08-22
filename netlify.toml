@@ -30,4 +30,15 @@
   status = 301
 
 
+[[redirects]]
+  from = "/li"
+  to   = "/?utm_source=linkedin&utm_medium=companypage&utm_campaign=brand"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/li-5sec"
+  to   = "/lead/5sec?utm_source=linkedin&utm_medium=button&utm_campaign=5sec_checklist"
+  status = 301
+  force = true
 
