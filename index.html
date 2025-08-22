@@ -152,29 +152,37 @@ a.text-decoration-none.d-block.h-100 .product-card{
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav class="navbar navbar-expand-lg sticky-top nav-shadow">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="/">
-        <img src="/assets/logo.png" alt="Aquilario logo" height="40" class="me-2">
-        <span class="fw-bold">Aquilario</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-          <li class="nav-item"><a class="nav-link" href="#playbook">Playbook</a></li>
-          <li class="nav-item"><a class="nav-link" href="#subscribe">Subscribe</a></li>
-          <li class="nav-item"><a class="nav-link active" href="/index.html">Free</a></li>
-          <li class="nav-item ms-lg-3">
-            <a class="btn btn-gold btn-sm" href="#contact">Contact</a>
-          </li>
-        </ul>
-      </div>
+<!-- Nav -->
+<nav class="navbar navbar-expand-lg sticky-top nav-shadow">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="/assets/logo.png" alt="Aquilario logo" height="40" class="me-2">
+      <span class="fw-bold">Aquilario</span>
+    </a>
+
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="mainNav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="#playbook">Playbook</a></li>
+
+        <!-- Free (goes to the resources hub) -->
+        <li class="nav-item"><a class="nav-link" href="/free">Free</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="#subscribe">Subscribe</a></li>
+        <li class="nav-item ms-lg-3">
+          <a class="btn btn-gold btn-sm" href="#contact">Contact</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <!-- Hero -->
   <header class="container section">
