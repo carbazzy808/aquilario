@@ -24,4 +24,10 @@
   status = 308
   force = true
 
+  [[redirects]]
+  from = "/linkconvertbeta/*"
+  to = "https://linkconvert.aquilario.com/:splat"
+  status = 301
+
+
 
